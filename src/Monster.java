@@ -3,7 +3,8 @@ public class Monster {
     protected String monsterType; // unlike names this one will not be unique per instance
     protected int hp;
     protected int atk;
-    protected int def; // def is subtracted from incoming damage to produce total damage taken
+    // def is subtracted from incoming damage to produce total damage taken
+    protected int def;
     // status debuffs can be applied and each have a negative
     protected String statusEffects[] = {"Burn", "Frozen", "Stun"};
     protected String currentStatusEffect;

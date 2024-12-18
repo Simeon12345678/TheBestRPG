@@ -5,6 +5,7 @@ public class Character {
     protected int guard;
     protected String name;
     protected String currentStatusEffect;
+    protected String charType;
     protected boolean isGuarding;
 
     public void setHp(int hp) {
@@ -48,5 +49,9 @@ public class Character {
 
     public void attack(Monster ms) {
         ms.receiveDMG(atk, ms.getHP());
+    }
+
+    public void guard() {
+        isGuarding = true;
     }
 }
