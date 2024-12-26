@@ -21,8 +21,24 @@ public class Monster {
         this.def = def;
     }
 
+    public void setStatusEffects(String status) {
+        currentStatusEffect = status;
+    }
+
     public int getHP() {
         return hp;
+    }
+
+    public int getDef() {
+        return def;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getMonsterType() {
+        return monsterType;
     }
 
     public void receiveDMG(int atk, int def) {

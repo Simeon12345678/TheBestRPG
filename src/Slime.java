@@ -26,7 +26,7 @@ public class Slime extends Monster {
         System.out.println(ch.getName() + " was hit by " + name + " the " + monsterType + " and took " + (currentAttack - ch.getDef()) + " damage!");
 
         if ((int)(Math.random() * 16) == 16 && ch.getGuardStatus()) {
-            ch.currentStatusEffect = statusEffects[2]; // stun player with 1/16 chance
+            ch.setStatusEffect(statusEffects[2]); // stun player with 1/16 chance
             System.out.println(ch.getName() + " was stunned by the attack! They may be unable to move");
         }
     }

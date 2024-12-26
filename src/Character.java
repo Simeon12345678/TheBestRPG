@@ -1,10 +1,12 @@
 public class Character {
     protected int hp;
+    protected int maxHp;
     protected int atk;
     protected int def; // def is subtracted from incoming damage to produce total damage taken
     protected int guard;
     protected String name;
     protected String currentStatusEffect;
+    protected String statusEffects[] = {"Burn", "Frozen", "Stun"};
     protected String charType;
     protected boolean isGuarding;
 
@@ -20,8 +22,20 @@ public class Character {
         this.def = def;
     }
 
+    public void setStatusEffect(String status) {
+        this.currentStatusEffect = status;
+    }
+
     public int getDef() {
         return def;
+    }
+
+    public int getHP() {
+        return hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
     }
 
     public int getGuard() {
@@ -30,6 +44,10 @@ public class Character {
 
     public String getName() {
         return name;
+    }
+
+    public String getCurrentStatusEffect() {
+        return currentStatusEffect;
     }
 
     public boolean getGuardStatus() {
@@ -49,6 +67,12 @@ public class Character {
 
     public void attack(Monster ms) {
         ms.receiveDMG(atk, ms.getHP());
+    }
+
+    public void multiAttack(Monster ms1, Monster ms2) {
+        ms1.receiveDMG(atk, ms1.getHP());
+        ms2.receiveDMG(atk, ms1.getHP());
+        System.out.println(ms1.getName() + " and " + ms2.getName() + "were both hit and took " + (atk - ms1.getDef()) + (atk - ms2.getDef()));
     }
 
     public void guard() {

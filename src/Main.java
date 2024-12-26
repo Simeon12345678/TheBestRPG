@@ -73,15 +73,19 @@ public class Main {
     public static void selectPartners() {
         Scanner in = new Scanner(System.in);
         String ans;
-        System.out.println("No party is complete with only one member. (duh)\nSo create some friends or have us do it for you.\n make my own : 1\n you do it : 2");
-        System.out.print("Type the number after the choice to select: ");
-        ans = in.nextLine();
-        if (ans.equalsIgnoreCase("1")) {
-            // code goes here
-        } else if (ans.equalsIgnoreCase("2")) {
+        try {
+            System.out.println("No party is complete with only one member. (duh)\nSo create some friends or have us do it for you.\n make my own : 1\n you do it : 2");
+            System.out.print("Type the number after the choice to select: ");
+            ans = in.nextLine();
+            if (ans.equalsIgnoreCase("1")) {
+                // code goes here
+            } else if (ans.equalsIgnoreCase("2")) {
 
-        } else {
-            System.err.println("Invalid choice");
+            } else {
+                System.err.println("Invalid choice");
+            }
+        } catch (Exception e) {
+            System.err.println("ERROR INVALID");
         }
     }
 
