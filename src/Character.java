@@ -46,6 +46,10 @@ public class Character {
         return name;
     }
 
+    public String getCharType() {
+        return charType;
+    }
+
     public String getCurrentStatusEffect() {
         return currentStatusEffect;
     }

@@ -7,15 +7,15 @@ public class Sorcerer extends Character {
     private String possibleAttackNames[] = {"Magic missile", "Fireball", "Thunderbolt"};
 
     Sorcerer(String inName) {
-        maxHp = 70;
-        hp = 70;
-        def = 5;
-        atk = 100;
-        charType = "Sorcerer";
+        this.maxHp = 70;
+        this.hp = 70;
+        this.def = 5;
+        this.atk = 100;
+        this.charType = "Sorcerer";
         if (inName.equals("default")) {
-            name = defaultNames[(int)(Math.random() * defaultNames.length)];
+            this.name = defaultNames[(int)(Math.random() * defaultNames.length)];
         } else {
-            name = inName;
+            this.name = inName;
         }
     }
 

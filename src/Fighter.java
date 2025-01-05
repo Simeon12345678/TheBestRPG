@@ -4,15 +4,15 @@ public class Fighter extends Character {
     private String possibleAttackNames[] = {"Slash", "Stab", "Sweep"};
 
     Fighter(String inName) {
-        maxHp = 100;
-        hp = 100;
-        def = 15;
-        atk = 80;
-        charType = "Fighter";
+        this.maxHp = 100;
+        this.hp = 100;
+        this.def = 15;
+        this.atk = 80;
+        this.charType = "Fighter";
         if (inName.equals("default")) {
-            name = defaultNames[(int)(Math.random() * defaultNames.length)];
+            this.name = defaultNames[(int)(Math.random() * defaultNames.length)];
         } else {
-            name = inName;
+            this.name = inName;
         }
     }
 
