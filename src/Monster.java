@@ -2,6 +2,7 @@ public class Monster {
     protected String name;
     protected String monsterType; // unlike names this one will not be unique per instance
     protected int hp;
+    protected int maxHp;
     protected int atk;
     // def is subtracted from incoming damage to produce total damage taken
     protected int def;
@@ -29,6 +30,10 @@ public class Monster {
         return hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
     public int getDef() {
         return def;
     }
@@ -53,8 +58,15 @@ public class Monster {
     }
 
     public void attack(Character ch) {
-        ch.receiveDMG(atk, ch.getDef());
-        System.out.println(ch.getName() + " was hit and took " + (atk - ch.getDef()) + " damage!");
+        int currentAttack;
+        if (ch.getGuardStatus()) {
+            currentAttack = atk - ch.getGuard();
+        } else {
+            currentAttack = atk;
+        }
+
+        ch.receiveDMG(currentAttack, ch.getDef());
+        System.out.println(ch.getName() + " was hit by " + name + " the " + monsterType + " and took " + (currentAttack - ch.getDef()) + " damage!");
     }
 
     public void multiAttack(Character ch, Character ch2) {

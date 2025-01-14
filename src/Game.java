@@ -6,6 +6,8 @@ public class Game {
     private ArrayList<Character> party = new ArrayList<>();
     private ArrayList<Monster> enemyParty = new ArrayList<>();
 
+    private int round = 1;
+
     // colors
     private final String ANSI_RESET = "\u001B[0m";
     private final String ANSI_BLACK = "\u001B[30m";
@@ -19,9 +21,6 @@ public class Game {
     // background colors
 
 
-    Character npc1 = new Character();
-    Character npc2 = new Character();
-
     public void run() {
         boolean whileWindowShouldClose = true;
         initBeginning();
@@ -30,10 +29,12 @@ public class Game {
         Player MainPlayer = new Player(charName, charWeapon);
         party.add(MainPlayer);
         selectPartners();
-
+        addMonsters(enemyParty, 0);
+        initiative();
 
 
         while (!whileWindowShouldClose) {
+
         }
     }
 
@@ -55,6 +56,7 @@ public class Game {
         }
         return name;
     }
+
 
     public String getWeapon() {
         String ans;
@@ -133,9 +135,59 @@ public class Game {
         }
     }
 
-    public void addMonsters(ArrayList<Monster> arr, int roundDifficulty) {
-
+    public void initiative() {
+        int first = (int)(Math.random() * 6);
+        if (first > 3) {
+            System.out.println("The player and their party will go first!");
+        } else {
+            System.out.println(ANSI_RED + "The enemies will go first!" + ANSI_RESET);
+        }
     }
 
+    public int[] addMonstersAlgorithm(ArrayList<Monster> arr, int roundDifficulty) {
+        int size = 10 + roundDifficulty;
+        int selection[] = new int[size];
+        for (int i = 0; i < selection.length - 1; i++) {
+            int rand = (int)(Math.random() * 2);
+            if (((int)(Math.random() * 16) + roundDifficulty) >= 16) { // 1 in 16 chance to up enemy difficulty higher odds per roundDiff
+                if (rand + 1 == 3) {
+                    selection[i] = 2;
+                } else {
+                    selection[i] = rand + 1;
+                }
+            } else {
+                selection[i] = rand;
+            }
+        }
+        return selection;
+    }
+    // generates an opposing party of enemies to battle
+    // based on roundDifficulty an array will be made with numbers through (0-2 for now)
+    // higher difficulty means harder enemies ie more 1's than 0's to get evil knights over slimes
+    // TODO make roundDifficulty affect size
+    public void addMonsters(ArrayList<Monster> arr, int roundDifficulty) {
+        int size = 10 + roundDifficulty;
+
+        for (int i = 0; i < 3; i++) {
+            int selection[] = addMonstersAlgorithm(enemyParty, roundDifficulty);
+            Utils.insertionSort(selection);
+            int choice = selection[size / 2]; // find median
+            switch (choice){
+                case 0:
+                    Slime slime = new Slime();
+                    arr.add(slime);
+                    break;
+                case 1:
+                    EvilKnight evilKnight = new EvilKnight();
+                    arr.add(evilKnight);
+                    break;
+                case 2:
+                    Wraith wraith = new Wraith();
+                    arr.add(wraith);
+                    break;
+            }
+        }
+        System.out.println("you will be fighting " + enemyParty + " for round 1");
+    }
 
 }
