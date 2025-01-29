@@ -5,6 +5,7 @@ public class Game {
     private final Scanner in = new Scanner(System.in);
     private ArrayList<Character> party = new ArrayList<>();
     private ArrayList<Monster> enemyParty = new ArrayList<>();
+    private final Utils<Integer> utils = new Utils<>();
 
     private int round = 1;
 
@@ -31,7 +32,6 @@ public class Game {
         selectPartners();
         addMonsters(enemyParty, 0);
         initiative();
-
 
         while (!whileWindowShouldClose) {
 
@@ -105,7 +105,6 @@ public class Game {
     }
 
     public void selectPartners() {
-        Scanner in = new Scanner(System.in);
         String ans;
         try {
             System.out.println("\n\n\nNo party is complete with only one member. (duh)\nSo create 2 friends or have us do it for you.\n make my own : 1\n you do it : 2");
@@ -124,19 +123,19 @@ public class Game {
                     initNpcClass(name, selection);
                 }
             } else if (ans.equalsIgnoreCase("2")) {
-                initNpcClass("default", (int)(Math.random() * 2 + 1));
-                initNpcClass("default", (int)(Math.random() * 2 + 1));
+                initNpcClass("default", utils.generateRandomNumber(1, 2));
+                initNpcClass("default", utils.generateRandomNumber(1, 2));
             } else {
                 System.err.println("Invalid choice");
             }
-            System.out.println("Ok so you got: \n" + party.get(1).getName() + " the " + party.get(1).getCharType() + "\n" + party.get(2).getName() + " the " + party.get(2).getCharType());
+            System.out.println("Ok so you got: \n" + party.get(1).getName() + " the " + party.get(1).getNpcType() + "\n" + party.get(2).getName() + " the " + party.get(2).getNpcType());
         } catch (Exception e) {
             System.err.println("ERROR INVALID " + e);
         }
     }
 
     public void initiative() {
-        int first = (int)(Math.random() * 6);
+        int first = utils.generateRandomNumber(1, 6);
         if (first > 3) {
             System.out.println("The player and their party will go first!");
         } else {
@@ -144,12 +143,30 @@ public class Game {
         }
     }
 
+    public void playerTurn() {
+        System.out.println("Options\n Fight : 1\n Inventory : 2");
+        String ans = in.nextLine();
+        if (ans.equalsIgnoreCase("1")) {
+            System.out.println("Options\nAttack : 1\nMulti Attack : 2\nSpecial: 3\nGuard: 4\nBack : 5");
+        } else {
+
+        }
+    }
+
+    public void enemyTurn() {
+
+    }
+
+    // generates an opposing party of enemies to battle
+    // based on roundDifficulty an array will be made with numbers through (0-2 for now)
+    // higher difficulty means harder enemies ie more 1's than 0's to get evil knights over slimes
+    // TODO make roundDifficulty affect size
     public int[] addMonstersAlgorithm(ArrayList<Monster> arr, int roundDifficulty) {
         int size = 10 + roundDifficulty;
         int selection[] = new int[size];
         for (int i = 0; i < selection.length - 1; i++) {
-            int rand = (int)(Math.random() * 2);
-            if (((int)(Math.random() * 16) + roundDifficulty) >= 16) { // 1 in 16 chance to up enemy difficulty higher odds per roundDiff
+            int rand = utils.generateRandomNumber(0, 2);
+            if ((utils.generateRandomNumber(0, 16) + roundDifficulty) >= 16) { // 1 in 16 chance to up enemy difficulty higher odds per roundDiff
                 if (rand + 1 == 3) {
                     selection[i] = 2;
                 } else {
@@ -161,10 +178,7 @@ public class Game {
         }
         return selection;
     }
-    // generates an opposing party of enemies to battle
-    // based on roundDifficulty an array will be made with numbers through (0-2 for now)
-    // higher difficulty means harder enemies ie more 1's than 0's to get evil knights over slimes
-    // TODO make roundDifficulty affect size
+
     public void addMonsters(ArrayList<Monster> arr, int roundDifficulty) {
         int size = 10 + roundDifficulty;
 
@@ -172,7 +186,7 @@ public class Game {
             int selection[] = addMonstersAlgorithm(enemyParty, roundDifficulty);
             Utils.insertionSort(selection);
             int choice = selection[size / 2]; // find median
-            switch (choice){
+            switch (choice) {
                 case 0:
                     Slime slime = new Slime();
                     arr.add(slime);

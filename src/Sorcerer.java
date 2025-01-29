@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+// moveset
+// heal spell
+// heal status
+// multi attack 3 targets (overload)
+// attack (no override)
+
+
 public class Sorcerer extends Character {
     private String weapon = "Staff";
     // in case player does not pick one
@@ -7,13 +14,9 @@ public class Sorcerer extends Character {
     private String possibleAttackNames[] = {"Magic missile", "Fireball", "Thunderbolt"};
 
     Sorcerer(String inName) {
-        this.maxHp = 70;
-        this.hp = 70;
-        this.def = 5;
-        this.atk = 100;
-        this.charType = "Sorcerer";
+        super(inName, "Sorcerer", 70, 100, 5, 4);
         if (inName.equals("default")) {
-            this.name = defaultNames[(int)(Math.random() * defaultNames.length)];
+            this.name = defaultNames[utils.generateRandomNumber(0, defaultNames.length)];
         } else {
             this.name = inName;
         }
@@ -22,9 +25,9 @@ public class Sorcerer extends Character {
     // sorcerer is the only npc who can heal others
     public void healSpell(Character ch) {
         if (ch.getHP() == ch.getMaxHp()) {
-            System.out.println(name + " the " + charType + " used Heal spell! But " + ch.getName() + " was already at full health");
+            System.out.println(name + " the " + npcType + " used Heal spell! But " + ch.getName() + " was already at full health");
         } else {
-            int healRange = (int)(Math.random() * 20);
+            int healRange = utils.generateRandomNumber(0, 20);
             ch.setHp(healRange);
         }
     }
@@ -38,12 +41,7 @@ public class Sorcerer extends Character {
         }
     }
 
-    public void attack(Monster ms) {
-        String currentATK = possibleAttackNames[(int)(Math.random() * possibleAttackNames.length)];
-        ms.receiveDMG(atk, ms.getDef());
-        System.out.println(ms.getName() + " the " + ms.getMonsterType() +  " was hit by the " + currentATK + " and took " + (atk - ms.getDef()) + " damage!");
-    }
-
+    // overloads the parent multi attack to target 3 enemies instead
     public void multiAttack(Monster ms, Monster ms2, Monster ms3) {
         ArrayList<Monster> monsters = new ArrayList<>();
         monsters.add(ms);
@@ -52,7 +50,7 @@ public class Sorcerer extends Character {
 
         for (int i = 0; i < monsters.size(); i++) {
             monsters.get(i).receiveDMG(atk, monsters.get(i).getDef());
-            System.out.println(monsters.get(i).getName() + " the " + monsters.get(i).getMonsterType() + " Was hit by " + name + " Hellfire spell and took " + (atk - monsters.get(i).getDef()) + " Damage!");
+            System.out.println(monsters.get(i).getName() + " the " + monsters.get(i).getNpcType() + " Was hit by " + name + " Hellfire spell and took " + (atk - monsters.get(i).getDef()) + " Damage!");
         }
     }
 }

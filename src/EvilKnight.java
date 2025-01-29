@@ -1,6 +1,16 @@
+// moveset
+// charge attack
+// normal attack
+// fire buff
+
 public class EvilKnight extends Monster {
     private final String names[] = {"Sauron", "Morgoth", "Raime", "Messmer"};
     private int swordBuff = 0;
+
+    EvilKnight() {
+        super("default", "Evil Knight", 60, 50, 20, 3);
+        this.name = names[utils.generateRandomNumber(0, names.length)];
+    }
 
     public void attack(Character ch) {
         checkBuffStatus();
@@ -12,10 +22,10 @@ public class EvilKnight extends Monster {
         }
 
         ch.receiveDMG(currentAttack, ch.getDef());
-        System.out.println(ch.getName() + " was hit by " + name + " the " + monsterType + " and took " + (currentAttack - ch.getDef() + " damage!"));
+        System.out.println(ch.getName() + " was hit by " + name + " the " + npcType + " and took " + (currentAttack - ch.getDef() + " damage!"));
 
 
-        if ((int)(Math.random() * 16) == 16 && swordBuff > 0) {
+        if (utils.generateRandomNumber(0, 16) == 16 && swordBuff > 0) {
             ch.setStatusEffect(statusEffects[0]);
             System.out.println(ch.getName() + " Was burned by the knights blade!");
             swordBuff--;
@@ -23,7 +33,7 @@ public class EvilKnight extends Monster {
     }
 
     public void chargeAttack() {
-        System.out.println(name + " the " + monsterType + "Is charging an attack! It will be unleashed next turn.");
+        System.out.println(name + " the " + npcType + "Is charging an attack! It will be unleashed next turn.");
     }
 
     public void unleashChargeAttack(Character ch, int currentAttack) {
@@ -32,7 +42,7 @@ public class EvilKnight extends Monster {
         ch.receiveDMG((currentAttack + 40), ch.getDef());
         System.out.println(ch.getName() + " Was hit by the mighty attack and took " + ((atk + 40) - ch.getDef()) + " damage!");
 
-        if ((int)(Math.random() * 16) == 16 && swordBuff > 0) {
+        if (utils.generateRandomNumber(0, 16) == 16 && swordBuff > 0) {
             ch.setStatusEffect(statusEffects[0]);
             System.out.println(ch.getName() + " Was burned by the knights blade!");
             swordBuff--;
@@ -42,9 +52,9 @@ public class EvilKnight extends Monster {
     public void imbueSwordWithFlames() {
         if (swordBuff == 0) {
             swordBuff = 5;
-            System.out.println(name + " the " + monsterType + " imbued his sword with flames, the attacks are stronger and may cause burn!");
+            System.out.println(name + " the " + npcType + " imbued his sword with flames, the attacks are stronger and may cause burn!");
         } else {
-            System.out.println(name + " the " + monsterType + " tried to imbue his sword with flames but it was already on fire");
+            System.out.println(name + " the " + npcType + " tried to imbue his sword with flames but it was already on fire");
         }
         atk += 10;
     }

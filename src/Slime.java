@@ -1,3 +1,8 @@
+// moveset
+// attack
+// multiattack (overloaded for 3 targets and stun)
+
+
 import java.util.ArrayList;
 
 public class Slime extends Monster {
@@ -6,11 +11,8 @@ public class Slime extends Monster {
 
     Slime() {
         // stats for the slime monster
-        hp = 50;
-        name = names[(int)(Math.random() * names.length)];
-        monsterType = "Slime";
-        atk = 30;
-        def = 10;
+        super("default", "Slime", 50, 30, 10, 2);
+        this.name = names[utils.generateRandomNumber(0, names.length)];
     }
 
     // method that dictates attack directed at one player, slime can stun
@@ -23,9 +25,9 @@ public class Slime extends Monster {
         }
 
         ch.receiveDMG(currentAttack, ch.getDef());
-        System.out.println(ch.getName() + " was hit by " + name + " the " + monsterType + " and took " + (currentAttack - ch.getDef()) + " damage!");
+        System.out.println(ch.getName() + " was hit by " + name + " the " + npcType + " and took " + (currentAttack - ch.getDef()) + " damage!");
 
-        if ((int)(Math.random() * 16) == 16 && ch.getGuardStatus()) {
+        if (utils.generateRandomNumber(0, 16) == 16 && ch.getGuardStatus()) {
             ch.setStatusEffect(statusEffects[2]); // stun player with 1/16 chance
             System.out.println(ch.getName() + " was stunned by the attack! They may be unable to move");
         }
