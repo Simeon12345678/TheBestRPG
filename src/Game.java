@@ -26,7 +26,7 @@ public class Game {
         boolean whileWindowShouldClose = true;
         initBeginning();
         String charName = name();
-        String charWeapon = getWeapon();
+        String charWeapon = selectWeapon();
         Player MainPlayer = new Player(charName, charWeapon);
         party.add(MainPlayer);
         selectPartners();
@@ -46,50 +46,56 @@ public class Game {
     public String name() {
         String ans;
         String name = "default";
-        System.out.println("Create your character!");
-        try {
-            System.out.print("Write a name: ");
-            ans = in.nextLine();
-            name = ans;
-        } catch (Exception e) {
-            System.err.println("ERROR INVALID " + e);
+        System.out.println(ANSI_CYAN + "Create your character!" + ANSI_RESET);
+        while (true) {
+            try {
+                System.out.print("Write a name: ");
+                ans = in.nextLine();
+                name = ans;
+                break;
+            } catch (Exception e) {
+                System.err.println("ERROR INVALID " + e);
+            }
         }
         return name;
     }
 
 
-    public String getWeapon() {
-        String ans;
+    public String selectWeapon() {
+        int ansInt;
         String currentWeapon = "default";
-        try {
-            System.out.println("Select a weapon\n Axe : 1\n Sword : 2\n Bow : 3\n Pike : 4\n");
-            System.out.print("Type the number after the weapon to select: ");
-            ans = in.nextLine();
-            switch (ans) {
-                case "1":
-                    currentWeapon = "Axe";
-                    System.out.println("Selected the Axe!");
-                    break;
-                case "2":
-                    currentWeapon = "Sword";
-                    System.out.println("Selected the Sword");
-                    break;
-                case "3":
-                    currentWeapon = "Bow";
-                    System.out.println("Selected the Bow");
-                    break;
-                case "4":
-                    currentWeapon = "Pike";
-                    System.out.println("Selected the Pike");
-                    break;
-                default:
-                    System.err.println("Invalid input");
-                    break;
+        while(true) {
+            try {
+                System.out.println("Select a weapon\n Axe : 1\n Sword : 2\n Bow : 3\n Pike : 4\n");
+                System.out.print("Type the number after the weapon to select: ");
+                ansInt = in.nextInt();
+                if (ansInt <= 0 || ansInt >= 5) {
+                    throw new ArithmeticException("Please select a number between 1 and 4");
+                }
+                switch (ansInt) {
+                    case 1:
+                        currentWeapon = "Axe";
+                        System.out.println("Selected the Axe!");
+                        break;
+                    case 2:
+                        currentWeapon = "Sword";
+                        System.out.println("Selected the Sword");
+                        break;
+                    case 3:
+                        currentWeapon = "Bow";
+                        System.out.println("Selected the Bow");
+                        break;
+                    case 4:
+                        currentWeapon = "Pike";
+                        System.out.println("Selected the Pike");
+                        break;
+                }
+                break;
+            } catch(Exception e) {
+                in.nextLine();
+                System.err.println("ERROR INVALID " + e);
             }
-        } catch(Exception e) {
-            System.err.println("ERROR INVALID " + e);
         }
-
         return currentWeapon;
     }
 
@@ -105,39 +111,48 @@ public class Game {
     }
 
     public void selectPartners() {
+        int ansInt;
         String ans;
-        try {
-            System.out.println("\n\n\nNo party is complete with only one member. (duh)\nSo create 2 friends or have us do it for you.\n make my own : 1\n you do it : 2");
-            System.out.print("Type the number after the choice to select: ");
-            ans = in.nextLine();
-            if (ans.equalsIgnoreCase("1")) {
-                for (int i = 0; i < 2; i++) {
-                    System.out.println("\n\n\n\n\n---[Partner " + (i + 1) + "]---");
-                    System.out.println("Do you want a fighter or sorcerer. \nFighter: 1 \nSorcerer: 2");
-                    System.out.print("type the number after the choice to select: ");
-                    ans = in.nextLine();
-                    int selection = Integer.parseInt(ans);
-                    System.out.print("Type a name for your partner: ");
-                    ans = in.nextLine();
-                    String name = ans;
-                    initNpcClass(name, selection);
+        while (true) {
+            try {
+                System.out.println("\n\n\nNo party is complete with only one member. (duh)\nSo create 2 friends or have us do it for you.\n make my own : 1\n you do it : 2");
+                System.out.print("Type the number after the choice to select: ");
+                ansInt = in.nextInt();
+                if (ansInt == 1) {
+
+                    for (int i = 0; i < 2; i++) {
+                        System.out.println(ANSI_CYAN + "\n\n\n\n\n---[Partner " + (i + 1) + "]---" + ANSI_BLACK);
+                        System.out.println("Do you want a fighter or sorcerer. \nFighter: 1 \nSorcerer: 2");
+                        System.out.print("type the number after the choice to select: ");
+                        ansInt = in.nextInt();
+                        in.nextLine();
+                        System.out.print("Type a name for your partner: ");
+                        ans = in.nextLine();
+                        String name = ans;
+                        initNpcClass(name, ansInt);
+                    }
+                    break;
+
+                } else if (ansInt == 2) {
+                    initNpcClass("default", utils.generateRandomNumber(1, 2));
+                    initNpcClass("default", utils.generateRandomNumber(1, 2));
+                    break;
+                } else {
+                    System.err.println("Invalid choice");
                 }
-            } else if (ans.equalsIgnoreCase("2")) {
-                initNpcClass("default", utils.generateRandomNumber(1, 2));
-                initNpcClass("default", utils.generateRandomNumber(1, 2));
-            } else {
-                System.err.println("Invalid choice");
+                System.out.println("Ok so you got: \n" + party.get(1).getName() + " the " + party.get(1).getNpcType() + "\n" + party.get(2).getName() + " the " + party.get(2).getNpcType());
+            } catch (Exception e) {
+                in.nextLine();
+                System.err.println("ERROR INVALID " + e);
             }
-            System.out.println("Ok so you got: \n" + party.get(1).getName() + " the " + party.get(1).getNpcType() + "\n" + party.get(2).getName() + " the " + party.get(2).getNpcType());
-        } catch (Exception e) {
-            System.err.println("ERROR INVALID " + e);
         }
+
     }
 
     public void initiative() {
         int first = utils.generateRandomNumber(1, 6);
         if (first > 3) {
-            System.out.println("The player and their party will go first!");
+            System.out.println(ANSI_GREEN + "The player and their party will go first!" + ANSI_RESET);
         } else {
             System.out.println(ANSI_RED + "The enemies will go first!" + ANSI_RESET);
         }
