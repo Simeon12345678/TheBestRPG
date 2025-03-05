@@ -53,4 +53,22 @@ public class Sorcerer extends Character {
             System.out.println(monsters.get(i).getName() + " the " + monsters.get(i).getNpcType() + " Was hit by " + name + " Hellfire spell and took " + (atk - monsters.get(i).getDef()) + " Damage!");
         }
     }
+
+    @Override
+    public void selectAttacks(int num, Character ch, Monster ms1, Monster ms2, Monster ms3, Monster ms4) {
+        switch (num) {
+            case 1:
+                attack(ms1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length)]);
+                break;
+            case 2:
+                multiAttack(ms2, ms3, ms4);
+                break;
+            case 3:
+                healSpell(ch);
+                break;
+            case 4:
+                healStatus(ch);
+                break;
+        }
+    }
 }

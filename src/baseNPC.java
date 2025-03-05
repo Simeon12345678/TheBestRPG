@@ -90,4 +90,5 @@ public class baseNPC {
         npc2.receiveDMG(atk, npc2.getHP());
         System.out.println(npc2.getName() + " and " + npc2.getName() + "were both hit and took " + (atk - npc1.getDef()) + (atk - npc2.getDef()));
     }
+
 }

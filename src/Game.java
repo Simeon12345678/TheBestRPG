@@ -33,6 +33,8 @@ public class Game {
         addMonsters(enemyParty, 0);
         initiative();
 
+        playerTurn();
+
         while (!whileWindowShouldClose) {
 
         }
@@ -121,7 +123,7 @@ public class Game {
                 if (ansInt == 1) {
 
                     for (int i = 0; i < 2; i++) {
-                        System.out.println(ANSI_CYAN + "\n\n\n\n\n---[Partner " + (i + 1) + "]---" + ANSI_BLACK);
+                        System.out.println(ANSI_CYAN + "\n\n\n\n\n---[Partner " + (i + 1) + "]---" + ANSI_RESET);
                         System.out.println("Do you want a fighter or sorcerer. \nFighter: 1 \nSorcerer: 2");
                         System.out.print("type the number after the choice to select: ");
                         ansInt = in.nextInt();
@@ -159,17 +161,45 @@ public class Game {
     }
 
     public void playerTurn() {
-        System.out.println("Options\n Fight : 1\n Inventory : 2");
-        String ans = in.nextLine();
-        if (ans.equalsIgnoreCase("1")) {
-            System.out.println("Options\nAttack : 1\nMulti Attack : 2\nSpecial: 3\nGuard: 4\nBack : 5");
-        } else {
-
+        while (true) {
+            System.out.println("Options\n Fight : 1\n Inventory : 2");
+            System.out.print(":");
+            int ans = in.nextInt();
+            try {
+                if (ans >= 3 || ans <= 0) {
+                    throw new ArithmeticException("please select either 1 or 2");
+                }
+                switch (ans) {
+                    case 1:
+                        System.out.println("Options\nAttack : 1\nMulti Attack : 2\nSpecial: 3\nGuard: 4\nBack : 5");
+                        break;
+                    case 2:
+                        System.out.println("not a feature yet");
+                        break;
+                }
+                break;
+            } catch (Exception e) {
+                in.nextLine();
+                System.err.println("ERROR INVALID " + e);
+            }
         }
+
+    }
+
+    public void npcTurn(Monster ms, int rotation) {
+        int moves = party.get(rotation).numOfAtks; // determines possible usable moves
+        party.get(rotation).selectAttacks(
+            utils.generateRandomNumber(1, moves),
+            party.get(utils.generateRandomNumber(0, party.size())),
+            enemyParty.get(0),
+            enemyParty.get(1),
+            enemyParty.get(2),
+            enemyParty.get(utils.generateRandomNumber(0, enemyParty.size()))
+        );
     }
 
     public void enemyTurn() {
-
+        int rotation = 0;
     }
 
     // generates an opposing party of enemies to battle

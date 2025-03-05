@@ -26,4 +26,9 @@ public class Character extends baseNPC{
     public void guard() {
         isGuarding = true;
     }
+
+    // used for the combat of the game to select an attack which the npcs use
+    public void selectAttacks(int num, Character ch, Monster ms1, Monster ms2, Monster ms3, Monster ms4) {
+        System.out.println("my purpose is to be overriden");
+    }
 }
