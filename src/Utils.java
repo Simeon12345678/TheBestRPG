@@ -1,6 +1,6 @@
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Utils<T extends Number> {
+public class Utils <T extends Number> {
     // insertion sort is used for the enemy selection process
     public static int[] insertionSort(int arr[]) {
         for (int i = 0; i < arr.length - 1; i++) {
@@ -24,10 +24,13 @@ public class Utils<T extends Number> {
 
         if (rangeFrom instanceof Integer) {
             // returns randomized integer in range
-            return (T) (Integer) ThreadLocalRandom.current().nextInt(rangeFrom.intValue(), rangeTo.intValue());
+            // (rangeTo - rangeFrom + 1) + rangeFrom ensures calling the method with parameters such as (1, 2) may return 1 and 2 and not only 1 as written before
+            int randInt = ThreadLocalRandom.current().nextInt(rangeTo.intValue() - rangeFrom.intValue() + 1) + rangeFrom.intValue();
+            return (T) Integer.valueOf(randInt);
         } else if (rangeFrom instanceof Double) {
             // returns randomized double in range
-            return (T) (Double) ThreadLocalRandom.current().nextDouble(rangeFrom.doubleValue(), rangeTo.doubleValue());
+            double randDouble = ThreadLocalRandom.current().nextDouble(rangeFrom.doubleValue(), rangeTo.doubleValue() + Math.ulp(rangeTo.doubleValue()));
+            return (T) Double.valueOf(randDouble);
         } else {
             System.err.println("Unable to return randomized number, perhaps it is an issue with rangeFrom? " + rangeFrom);
             return rangeFrom;

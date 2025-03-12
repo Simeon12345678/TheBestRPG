@@ -32,8 +32,10 @@ public class Game {
         selectPartners();
         addMonsters(enemyParty, 0);
         initiative();
-
-        playerTurn();
+        System.out.println(party.get(1).getNpcType());
+        System.out.println(party.get(2).getNpcType());
+        npcTurn(1);
+        // playerTurn();
 
         while (!whileWindowShouldClose) {
 
@@ -186,16 +188,18 @@ public class Game {
 
     }
 
-    public void npcTurn(Monster ms, int rotation) {
+    public void npcTurn(int rotation) {
         int moves = party.get(rotation).numOfAtks; // determines possible usable moves
+
         party.get(rotation).selectAttacks(
             utils.generateRandomNumber(1, moves),
             party.get(utils.generateRandomNumber(0, party.size())),
+            enemyParty.get(utils.generateRandomNumber(0, enemyParty.size())),
             enemyParty.get(0),
             enemyParty.get(1),
-            enemyParty.get(2),
-            enemyParty.get(utils.generateRandomNumber(0, enemyParty.size()))
+            enemyParty.get(2)
         );
+
     }
 
     public void enemyTurn() {

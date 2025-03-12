@@ -1,6 +1,6 @@
 // class for the players and their allies
 
-public class Character extends baseNPC{
+public abstract class Character extends baseNPC{
     protected int guard;
     protected String previousAtks[] = {"guard", "attack", "multiAttack", "multiHit", "charge", "heal", "healStat"};
     protected boolean isGuarding;
@@ -25,6 +25,7 @@ public class Character extends baseNPC{
 
     public void guard() {
         isGuarding = true;
+        System.out.println("this is a guard");
     }
 
     // used for the combat of the game to select an attack which the npcs use

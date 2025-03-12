@@ -12,7 +12,7 @@ public class Slime extends Monster {
     Slime() {
         // stats for the slime monster
         super("default", "Slime", 50, 30, 10, 2);
-        this.name = names[utils.generateRandomNumber(0, names.length)];
+        this.name = names[utils.generateRandomNumber(0, names.length - 1)];
     }
 
     // method that dictates attack directed at one player, slime can stun

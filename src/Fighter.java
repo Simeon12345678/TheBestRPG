@@ -13,7 +13,7 @@ public class Fighter extends Character {
     Fighter(String inName) {
         super(inName,"fighter",100,80,15, 4);
         if (inName.equals("default")) {
-            this.name = defaultNames[utils.generateRandomNumber(0, defaultNames.length)];
+            this.name = defaultNames[utils.generateRandomNumber(0, defaultNames.length - 1)];
         } else {
             this.name = inName;
         }

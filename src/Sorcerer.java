@@ -16,7 +16,7 @@ public class Sorcerer extends Character {
     Sorcerer(String inName) {
         super(inName, "Sorcerer", 70, 100, 5, 4);
         if (inName.equals("default")) {
-            this.name = defaultNames[utils.generateRandomNumber(0, defaultNames.length)];
+            this.name = defaultNames[utils.generateRandomNumber(0, defaultNames.length - 1)];
         } else {
             this.name = inName;
         }

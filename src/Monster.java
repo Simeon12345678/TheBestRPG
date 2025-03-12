@@ -1,6 +1,6 @@
 // class for the enemies in the game
 
-public class Monster extends baseNPC {
+public abstract class Monster extends baseNPC {
 
     Monster(String inName, String MonsterType, int hp, int atk, int def, int numOfAtks) {
         this.name = inName;

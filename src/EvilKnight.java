@@ -9,7 +9,7 @@ public class EvilKnight extends Monster {
 
     EvilKnight() {
         super("default", "Evil Knight", 60, 50, 20, 3);
-        this.name = names[utils.generateRandomNumber(0, names.length)];
+        this.name = names[utils.generateRandomNumber(0, names.length - 1)];
     }
 
     public void attack(Character ch) {

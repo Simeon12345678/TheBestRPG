@@ -5,12 +5,12 @@
 // multi hit 2 targets
 
 public class Wraith extends Monster {
-    private final String names[] = {"Johnny", "Slimer", "Spooky"};
+    private final String names[] = {"Johnny", "Scary", "Spooky"};
 
 
     Wraith() {
         super("default", "Wraith", 70, 40, 0, 4);
-        this.name = names[utils.generateRandomNumber(0, names.length)];
+        this.name = names[utils.generateRandomNumber(0, names.length - 1)];
     }
 
     public void freeze(Character ch) {
