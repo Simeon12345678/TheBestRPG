@@ -7,6 +7,7 @@ public class Player extends Character {
     private String previousAtk;
     private boolean canMultiHit;
     private boolean canChargeAttack;
+    private boolean isCharging = false;
 
     private Scanner in = new Scanner(System.in);
 
@@ -32,7 +33,7 @@ public class Player extends Character {
         }
     }
     @Override
-    public void guard() {
+    public void guard(String name, String npcType) {
         isGuarding = true;
         System.out.println("You have raised your weapon and are ready to receive the next blow.\nNext hits damage will be reduced");
     }
@@ -87,7 +88,7 @@ public class Player extends Character {
 
     public void chargeAttack() {
         System.out.println("You charge an attack readying it to be unleashed on the next turn");
-        previousAtk = previousAtks[4]; // charge
+        isCharging = true;
     }
 
     public void unleashChargeAttack(Monster ms) {

@@ -9,6 +9,7 @@ public class Fighter extends Character {
     private String weapon = "Sword";
     private String defaultNames[] = {"Arthur", "Aragorn", "Ornstein", "Saber", "Link"};
     private String possibleAttackNames[] = {"Slash", "Stab", "Sweep"};
+    private boolean isCharging = false;
 
     Fighter(String inName) {
         super(inName,"fighter",100,80,15, 4);
@@ -21,6 +22,7 @@ public class Fighter extends Character {
 
     public void chargeAttack() {
         System.out.println(name + "Is charging an attack! It will be unleashed next turn.");
+        isCharging = true;
     }
 
     public void unleashChargeAttack(Monster ms) {
@@ -32,10 +34,16 @@ public class Fighter extends Character {
             ms.setStatusEffect(statusEffects[2]);
             System.out.println(ms.getName() + " the " + ms.getNpcType() + " Was stunned by the blow!");
         }
+        isCharging = false;
     }
 
     @Override
     public void selectAttacks(int num, Character ch, Monster ms1, Monster ms2, Monster ms3, Monster ms4) {
+        // insures that the next attack will be the unleashing charge attack
+        if (isCharging) {
+            unleashChargeAttack(ms1);
+        }
+
         switch (num) {
             case 1:
                 attack(ms1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length)]);
@@ -44,7 +52,7 @@ public class Fighter extends Character {
                 multiAttack(ms2, ms3);
                 break;
             case 3:
-                guard();
+                guard(name, npcType);
                 break;
             case 4:
                 chargeAttack();

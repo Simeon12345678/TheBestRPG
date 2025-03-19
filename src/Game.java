@@ -35,6 +35,7 @@ public class Game {
         System.out.println(party.get(1).getNpcType());
         System.out.println(party.get(2).getNpcType());
         npcTurn(1);
+        enemyTurn(0);
         // playerTurn();
 
         while (!whileWindowShouldClose) {
@@ -193,8 +194,8 @@ public class Game {
 
         party.get(rotation).selectAttacks(
             utils.generateRandomNumber(1, moves),
-            party.get(utils.generateRandomNumber(0, party.size())),
-            enemyParty.get(utils.generateRandomNumber(0, enemyParty.size())),
+            party.get(utils.generateRandomNumber(0, party.size() - 1)),
+            enemyParty.get(utils.generateRandomNumber(0, enemyParty.size() - 1)),
             enemyParty.get(0),
             enemyParty.get(1),
             enemyParty.get(2)
@@ -202,8 +203,17 @@ public class Game {
 
     }
 
-    public void enemyTurn() {
-        int rotation = 0;
+    public void enemyTurn(int rotation) {
+        int moves = enemyParty.get(rotation).numOfAtks;
+
+        enemyParty.get(rotation).selectAttacks(
+            utils.generateRandomNumber(1, moves),
+            enemyParty.get(utils.generateRandomNumber(0, enemyParty.size() - 1)),
+            party.get(utils.generateRandomNumber(0, enemyParty.size() - 1)),
+            party.get(0),
+            party.get(1),
+            party.get(2)
+        );
     }
 
     // generates an opposing party of enemies to battle

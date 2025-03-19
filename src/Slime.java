@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 public class Slime extends Monster {
     // list of possible names
-    private final String names[] = {"Goober", "Slungus", "Slimy", "Surly"};
+    private final String names[] = {"Goober", "Slungus", "Slimy", "Surly", "polyethylene", "Sludger"};
+    private final String possibleAttackNames[] = {"Slam", "Pound", "Sludge"};
 
     Slime() {
         // stats for the slime monster
@@ -49,7 +50,20 @@ public class Slime extends Monster {
             }
             // take the damage
             characters.get(i).receiveDMG(currentAttack, characters.get(i).getDef());
-            System.out.println(characters.get(i).getName() + "was hit and took" + (currentAttack - characters.get(i).getDef()) + " damage!");
+            System.out.println(characters.get(i).getName() + " was hit and took " + (currentAttack - characters.get(i).getDef()) + " damage!");
+        }
+
+    }
+
+    @Override
+    public void selectAttacks(int num, Monster ms, Character ch1, Character ch2, Character ch3, Character ch4) {
+        switch (num) {
+            case 1:
+                attack(ch1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length)]);
+                break;
+            case 2:
+                multiAttack(ch2, ch3, ch4);
+                break;
         }
     }
 }

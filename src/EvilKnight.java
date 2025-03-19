@@ -4,8 +4,10 @@
 // fire buff
 
 public class EvilKnight extends Monster {
-    private final String names[] = {"Sauron", "Morgoth", "Raime", "Messmer"};
+    private final String names[] = {"Sauron", "Morgoth", "Raime", "Messmer", "Mirae", "Boralis", "Velstadt"};
+    private final String possibleAttackNames[] = {"Slash", "Stab", "Double rend"};
     private int swordBuff = 0;
+    private boolean isCharging = false;
 
     EvilKnight() {
         super("default", "Evil Knight", 60, 50, 20, 3);
@@ -33,7 +35,8 @@ public class EvilKnight extends Monster {
     }
 
     public void chargeAttack() {
-        System.out.println(name + " the " + npcType + "Is charging an attack! It will be unleashed next turn.");
+        System.out.println(name + " the " + npcType + " is charging an attack! It will be unleashed next turn.");
+        isCharging = true;
     }
 
     public void unleashChargeAttack(Character ch, int currentAttack) {
@@ -47,6 +50,7 @@ public class EvilKnight extends Monster {
             System.out.println(ch.getName() + " Was burned by the knights blade!");
             swordBuff--;
         }
+        isCharging = false;
     }
 
     public void imbueSwordWithFlames() {
@@ -66,9 +70,27 @@ public class EvilKnight extends Monster {
         } else if (swordBuff == 0) {
             System.out.println("The flames subside from the knights blade");
             atk -= 10;
-            swordBuff = -1; // means deactivated and will not display this msg with every attack;
+            swordBuff = -1; // means deactivated and will not display this msg with every attack and lower dmg
         }
     }
 
+    @Override
+    public void selectAttacks(int num, Monster ms, Character ch1, Character ch2, Character ch3, Character ch4) {
 
+        if (isCharging) {
+            unleashChargeAttack(ch1, atk);
+        }
+
+        switch (num) {
+            case 1:
+                attack(ch1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length)]);
+                break;
+            case 2:
+                chargeAttack();
+                break;
+            case 3:
+                imbueSwordWithFlames();
+                break;
+        }
+    }
 }

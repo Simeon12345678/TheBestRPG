@@ -2,7 +2,6 @@
 
 public abstract class Character extends baseNPC{
     protected int guard;
-    protected String previousAtks[] = {"guard", "attack", "multiAttack", "multiHit", "charge", "heal", "healStat"};
     protected boolean isGuarding;
 
     Character(String inName, String charType, int hp, int atk, int def, int numOfAtks) {
@@ -23,9 +22,9 @@ public abstract class Character extends baseNPC{
         return isGuarding;
     }
 
-    public void guard() {
+    public void guard(String name, String npcType) {
         isGuarding = true;
-        System.out.println("this is a guard");
+        System.out.println(name + " the " + npcType + " is guarding! They will take reduced damage from a hit now");
     }
 
     // used for the combat of the game to select an attack which the npcs use
