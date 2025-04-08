@@ -42,11 +42,12 @@ public class Player extends Character {
         isGuarding = false;
     }
     @Override
-    public void attack(baseNPC ms, String currentAtk) {
+    public void attack(BaseNPC ms, String currentAtk) {
         ms.receiveDMG(atk, ms.getDef());
         System.out.println("You attack the " + ms.getName() + " the " + ms.getNpcType() + " with a great strike from your " + currentAtk + " and they took " + (atk - ms.getDef()) + " damage");
     }
 
+    @Override
     public void special(Monster ms) {
         if (canMultiHit && canChargeAttack) {
             System.out.println("Charge your attack or perform a multi attack?\n charge : 1\n multi : 2");
@@ -64,15 +65,11 @@ public class Player extends Character {
         }
     }
 
-    public void multiAttack(Monster ms1, Monster ms2) {
-        ArrayList<Monster> monsters = new ArrayList<>();
-        monsters.add(ms1);
-        monsters.add(ms2);
-
-        for (int i = 0; i < monsters.size(); i++) {
-            monsters.get(i).receiveDMG(atk, monsters.get(i).getHP());
-            System.out.println(monsters.get(i).getName() + " the " + monsters.get(i).getNpcType() + " was hit by your area attack and took " + (atk - monsters.get(i).getDef()) + " damage!");
-        }
+    @Override
+    public void multiAttack(BaseNPC npc1, BaseNPC npc2) {
+        npc1.receiveDMG(atk, npc1.getHP());
+        npc2.receiveDMG(atk, npc2.getHP());
+        System.out.println(npc2.getName() + " the " + npc1.getNpcType() + " and " + npc2.getName() + " the " + npc2.getNpcType() + " were both hit by your area attack and took " + (atk - npc1.getDef()) + " and " + (atk - npc2.getDef()) + " respective damage!");
     }
 
     public void multiHit(Monster ms) {
@@ -86,11 +83,13 @@ public class Player extends Character {
         System.out.println(ms.getName() + " the " + ms.getNpcType() + " was hit a total of " + hits + " times and took " + totalDmg + " damage total!");
     }
 
+    @Override
     public void chargeAttack() {
         System.out.println("You charge an attack readying it to be unleashed on the next turn");
         isCharging = true;
     }
 
+    @Override
     public void unleashChargeAttack(Monster ms) {
         System.out.println("You finished charging!");
         ms.receiveDMG((atk + 50), ms.getDef());

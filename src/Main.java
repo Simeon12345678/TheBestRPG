@@ -1,7 +1,11 @@
 public class Main {
     public static void main(String[] args) {
+        Utils<Integer> utils = new Utils<>();
         Game game = new Game();
+        System.out.println(utils.generateRandomNumber(0, 2));
         game.run();
+
+
 
         try {
             // the entire game bb

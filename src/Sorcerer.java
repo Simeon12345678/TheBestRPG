@@ -24,17 +24,17 @@ public class Sorcerer extends Character {
 
     // sorcerer is the only npc who can heal others
     public void healSpell(Character ch) {
-        if (ch.getHP() == ch.getMaxHp()) {
+        int healRange = utils.generateRandomNumber(0, 20);
+        if (ch.getHP() + healRange >= ch.getMaxHp()) {
             System.out.println(name + " the " + npcType + " used Heal spell! But " + ch.getName() + " was already at full health");
         } else {
-            int healRange = utils.generateRandomNumber(0, 20);
             ch.setHp(healRange);
         }
     }
 
     public void healStatus(Character ch) {
         if (!(ch.getCurrentStatusEffect().isEmpty())) { // if ch has a status
-            ch.setStatusEffect(" ");
+            ch.setStatusEffect("");
             System.out.println("Cured the status applied to " + ch.getName());
         } else {
             System.out.println(ch.getName() + "had no status effect to cure!");
@@ -50,7 +50,7 @@ public class Sorcerer extends Character {
 
         for (int i = 0; i < monsters.size(); i++) {
             monsters.get(i).receiveDMG(atk, monsters.get(i).getDef());
-            System.out.println(monsters.get(i).getName() + " the " + monsters.get(i).getNpcType() + " Was hit by " + name + " Hellfire spell and took " + (atk - monsters.get(i).getDef()) + " Damage!");
+            System.out.println(monsters.get(i).getName() + " the " + monsters.get(i).getNpcType() + " Was hit by " + name + "'s Hellfire spell and took " + (atk - monsters.get(i).getDef()) + " Damage!");
         }
     }
 

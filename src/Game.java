@@ -165,19 +165,34 @@ public class Game {
 
     public void playerTurn() {
         while (true) {
-            System.out.println("Options\n Fight : 1\n Inventory : 2");
+            System.out.println("Options\nAttack : 1\nMulti Attack : 2\nSpecial: 3\nGuard: 4");
             System.out.print(":");
             int ans = in.nextInt();
             try {
-                if (ans >= 3 || ans <= 0) {
+                if (ans >= 5 || ans <= 0) {
                     throw new ArithmeticException("please select either 1 or 2");
                 }
                 switch (ans) {
                     case 1:
-                        System.out.println("Options\nAttack : 1\nMulti Attack : 2\nSpecial: 3\nGuard: 4\nBack : 5");
+                        party.get(0).attack(enemyParty.get(utils.generateRandomNumber(0, enemyParty.size() - 1)), "slash");
                         break;
                     case 2:
-                        System.out.println("not a feature yet");
+                        int option1 = utils.generateRandomNumber(0, enemyParty.size() - 1);
+                        int option2 = utils.generateRandomNumber(0, enemyParty.size() -1);
+                        if (option2 == option1) {
+                            if (option2 == 0) {
+                                option2++;
+                            } else {
+                                option2--;
+                            }
+                        }
+                        party.get(0).multiAttack(enemyParty.get(option1), enemyParty.get(option2));
+                        break;
+                    case 3:
+                        party.get(0).special(enemyParty.get(utils.generateRandomNumber(0, enemyParty.size() - 1)));
+                        break;
+                    case 4:
+                        party.get(0).guard(party.get(0).getName(), party.get(0).getNpcType());
                         break;
                 }
                 break;
@@ -194,7 +209,7 @@ public class Game {
 
         party.get(rotation).selectAttacks(
             utils.generateRandomNumber(1, moves),
-            party.get(utils.generateRandomNumber(0, party.size() - 1)),
+            party.get(utils.generateRandomNumber(0, (party.size() - 1))),
             enemyParty.get(utils.generateRandomNumber(0, enemyParty.size() - 1)),
             enemyParty.get(0),
             enemyParty.get(1),

@@ -1,11 +1,11 @@
 // features the universal things for monsters, npc's and players such as stats
 import com.sun.istack.internal.NotNull;
 
-public abstract class baseNPC {
+public abstract class BaseNPC {
     protected String name;
     protected String npcType;
     protected String statusEffects[] = {"Burn", "Frozen", "Stun"};
-    protected String currentStatusEffect;
+    protected String currentStatusEffect = ""; // blank
 
     protected int hp;
     protected int maxHp;
@@ -79,13 +79,13 @@ public abstract class baseNPC {
     }
 
     @NotNull
-    public void attack(baseNPC npc, String currentAtk) {
+    public void attack(BaseNPC npc, String currentAtk) {
         npc.receiveDMG(atk, npc.getHP());
         System.out.println(npc.getName() + " the " + npc.getNpcType() +  " was hit by the " + currentAtk + " and took " + (atk - npc.getDef()) + " damage!");
     }
 
     @NotNull
-    public void multiAttack(baseNPC npc1, baseNPC npc2) {
+    public void multiAttack(BaseNPC npc1, BaseNPC npc2) {
         npc1.receiveDMG(atk, npc1.getHP());
         npc2.receiveDMG(atk, npc2.getHP());
         System.out.println(npc2.getName() + " and " + npc2.getName() + " were both hit and took " + (atk - npc1.getDef()) + " and " + (atk - npc2.getDef()) + " respective damage!");
