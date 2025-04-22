@@ -31,15 +31,73 @@ public class Game {
         party.add(MainPlayer);
         selectPartners();
         addMonsters(enemyParty, 0);
-        initiative();
+        // initiative();
         System.out.println(party.get(1).getNpcType());
         System.out.println(party.get(2).getNpcType());
-        npcTurn(1);
-        enemyTurn(0);
+        fightSequence();
         // playerTurn();
+    }
 
-        while (!whileWindowShouldClose) {
+    public void fightSequence() {
+        System.out.println("The battle begins and we roll initiative to see who goes first!\n round: " + round);
 
+        while (true) {
+            party.get(0).applyStatus();
+            playerTurn();
+            party.get(1).applyStatus();
+            if (party.get(1).isDefeated) {
+                System.out.println("unable to fight");
+            } else {
+                npcTurn(1);
+            }
+
+            party.get(2).applyStatus();
+            if (party.get(2).isDefeated) {
+                System.out.println("unable to fight");
+            } else {
+                npcTurn(2);
+            }
+
+            enemyParty.get(0).applyStatus();
+            if (enemyParty.get(0).isDefeated) {
+                System.out.println("the enemy is dead");
+            } else {
+                enemyTurn(0);
+            }
+            enemyParty.get(1).applyStatus();
+            if (enemyParty.get(1).isDefeated) {
+                System.out.println("the enemy is dead");
+            } else {
+                enemyTurn(1);
+            }
+            enemyParty.get(2).applyStatus();
+            if (enemyParty.get(2).isDefeated) {
+                System.out.println("the enemy is dead");
+            } else {
+                enemyTurn(2);
+            }
+
+            for (int i = 0; i < party.size(); i++) {
+                if (party.get(i).getHP() <= 0) {
+                    System.out.println(party.get(i).getName() + " the " + party.get(i).getNpcType() + " has fainted and will no longer be able to fight");
+                    party.get(i).setDefeatStatus(true);
+                }
+            }
+
+            for (int i = 0; i < enemyParty.size(); i++) {
+                if (enemyParty.get(i).getHP() <= 0) {
+                    System.out.println(enemyParty.get(i).getName() + " the " + enemyParty.get(i).getNpcType() + "has died!");
+                    enemyParty.get(i).setDefeatStatus(true);
+                }
+            }
+
+            if (party.get(0).getHP() <= 0) {
+                System.out.println("You have died and thus lost the game");
+                break;
+            } else if (enemyParty.get(0).isDefeated && enemyParty.get(1).isDefeated && enemyParty.get(2).isDefeated) {
+                System.out.println("All the enemies have died and your team has reached victory");
+                break;
+            }
         }
     }
 
@@ -69,9 +127,10 @@ public class Game {
     public String selectWeapon() {
         int ansInt;
         String currentWeapon = "default";
-        while(true) {
+        while (true) {
             try {
                 System.out.println("Select a weapon\n Axe : 1\n Sword : 2\n Bow : 3\n Pike : 4\n");
+                System.out.println("Information: The axe can do a charge attack as its special, the sword can do a multihit as its special, the bow can do a charge attack as its special and the pike can do both");
                 System.out.print("Type the number after the weapon to select: ");
                 ansInt = in.nextInt();
                 if (ansInt <= 0 || ansInt >= 5) {
@@ -154,13 +213,20 @@ public class Game {
 
     }
 
-    public void initiative() {
+    public int initiative() {
         int first = utils.generateRandomNumber(1, 6);
         if (first > 3) {
             System.out.println(ANSI_GREEN + "The player and their party will go first!" + ANSI_RESET);
+            playerTurn();
+            npcTurn(1);
+            npcTurn(2);
         } else {
             System.out.println(ANSI_RED + "The enemies will go first!" + ANSI_RESET);
+            enemyTurn(0);
+            enemyTurn(1);
+            enemyTurn(2);
         }
+        return first;
     }
 
     public void playerTurn() {
@@ -170,18 +236,20 @@ public class Game {
             int ans = in.nextInt();
             try {
                 if (ans >= 5 || ans <= 0) {
-                    throw new ArithmeticException("please select either 1 or 2");
+                    throw new ArithmeticException("please select one of the listed numbers");
                 }
                 switch (ans) {
                     case 1:
+                        // attack
                         party.get(0).attack(enemyParty.get(utils.generateRandomNumber(0, enemyParty.size() - 1)), "slash");
                         break;
                     case 2:
-                        int option1 = utils.generateRandomNumber(0, enemyParty.size() - 1);
-                        int option2 = utils.generateRandomNumber(0, enemyParty.size() -1);
-                        if (option2 == option1) {
+                        // multiattack 2x
+                        int option1 = utils.generateRandomNumber(0, enemyParty.size() - 1); // first target monster
+                        int option2 = utils.generateRandomNumber(0, enemyParty.size() -1); // second target monster
+                        if (option2 == option1) { // so we don't hit the same one twice
                             if (option2 == 0) {
-                                option2++;
+                                option2++; // prevent index out of bounds
                             } else {
                                 option2--;
                             }
@@ -189,9 +257,11 @@ public class Game {
                         party.get(0).multiAttack(enemyParty.get(option1), enemyParty.get(option2));
                         break;
                     case 3:
+                        // special (charge or multihit)
                         party.get(0).special(enemyParty.get(utils.generateRandomNumber(0, enemyParty.size() - 1)));
                         break;
                     case 4:
+                        // guard
                         party.get(0).guard(party.get(0).getName(), party.get(0).getNpcType());
                         break;
                 }

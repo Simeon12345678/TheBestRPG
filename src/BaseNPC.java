@@ -6,17 +6,23 @@ public abstract class BaseNPC {
     protected String npcType;
     protected String statusEffects[] = {"Burn", "Frozen", "Stun"};
     protected String currentStatusEffect = ""; // blank
+    protected boolean isDefeated = false;
 
     protected int hp;
     protected int maxHp;
     protected int atk;
     protected int def;
     protected int numOfAtks;
+    protected int statusCounter = 3;
 
     protected final Utils<Integer> utils = new Utils<>();
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public void setDefeatStatus(boolean isDefeated) {
+        this.isDefeated = isDefeated;
     }
 
     public void setNumOfAtks(int numOfAtks) {
@@ -32,7 +38,7 @@ public abstract class BaseNPC {
     }
 
     public void setStatusEffect(String status) {
-        currentStatusEffect = status;
+        this.currentStatusEffect = status;
     }
 
     public int getAtk() {
@@ -63,6 +69,10 @@ public abstract class BaseNPC {
         return npcType;
     }
 
+    public boolean getIsDefeated() {
+        return isDefeated;
+    }
+
     public String getCurrentStatusEffect() {
         return currentStatusEffect;
     }
@@ -89,6 +99,42 @@ public abstract class BaseNPC {
         npc1.receiveDMG(atk, npc1.getHP());
         npc2.receiveDMG(atk, npc2.getHP());
         System.out.println(npc2.getName() + " and " + npc2.getName() + " were both hit and took " + (atk - npc1.getDef()) + " and " + (atk - npc2.getDef()) + " respective damage!");
+    }
+
+    public void applyStatus() {
+        if (currentStatusEffect.equalsIgnoreCase("Burn")) {
+            this.hp -= 5;
+            System.out.println(name + " the " + npcType + " was hurt by their burn");
+            this.statusCounter--;
+            if (statusCounter <= 0) {
+                System.out.println(name + " the " + npcType + " has put out their burn and will no longer take damage over time!");
+                this.currentStatusEffect = "";
+                this.statusCounter = 3;
+            }
+        } else if (currentStatusEffect.equalsIgnoreCase("Frozen")) {
+            System.out.println(name + " the " + npcType + " is frozen solid");
+            this.isDefeated = true;
+            this.statusCounter--;
+            if (statusCounter <= 0) {
+                System.out.println(name + " the " + npcType + " has thawed out and can move again");
+                this.isDefeated = false;
+                this.currentStatusEffect = "";
+                this.statusCounter = 3;
+            }
+        } else if (currentStatusEffect.equalsIgnoreCase("Stun")) {
+            if (utils.generateRandomNumber(0, 16) == 16) {
+                this.isDefeated = true;
+            } else {
+                this.isDefeated = false;
+            }
+            this.statusCounter--;
+            if (statusCounter <= 0) {
+                System.out.println(name + " the " + npcType + " has regained their senses and snapped out of the stun");
+                this.isDefeated = false;
+                this.currentStatusEffect = "";
+                this.statusCounter = 3;
+            }
+        }
     }
 
 }

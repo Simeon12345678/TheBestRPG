@@ -69,7 +69,7 @@ public class Player extends Character {
     public void multiAttack(BaseNPC npc1, BaseNPC npc2) {
         npc1.receiveDMG(atk, npc1.getHP());
         npc2.receiveDMG(atk, npc2.getHP());
-        System.out.println(npc2.getName() + " the " + npc1.getNpcType() + " and " + npc2.getName() + " the " + npc2.getNpcType() + " were both hit by your area attack and took " + (atk - npc1.getDef()) + " and " + (atk - npc2.getDef()) + " respective damage!");
+        System.out.println(npc1.getName() + " the " + npc1.getNpcType() + " and " + npc2.getName() + " the " + npc2.getNpcType() + " were both hit by your area attack and took " + (atk - npc1.getDef()) + " and " + (atk - npc2.getDef()) + " respective damage!");
     }
 
     public void multiHit(Monster ms) {

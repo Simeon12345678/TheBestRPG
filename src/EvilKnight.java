@@ -83,7 +83,7 @@ public class EvilKnight extends Monster {
 
         switch (num) {
             case 1:
-                attack(ch1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length)]);
+                attack(ch1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length - 1)]);
                 break;
             case 2:
                 chargeAttack();

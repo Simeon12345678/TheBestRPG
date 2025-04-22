@@ -37,7 +37,7 @@ public class Sorcerer extends Character {
             ch.setStatusEffect("");
             System.out.println("Cured the status applied to " + ch.getName());
         } else {
-            System.out.println(ch.getName() + "had no status effect to cure!");
+            System.out.println(ch.getName() + " had no status effect to cure!");
         }
     }
 

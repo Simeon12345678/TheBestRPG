@@ -24,7 +24,7 @@ public abstract class Monster extends BaseNPC {
     public void multiAttack(BaseNPC ch1, BaseNPC ch2) {
         ch1.receiveDMG(atk, ch1.getHP());
         ch2.receiveDMG(atk, ch2.getHP());
-        System.out.println(ch1.getName() + " and " + ch2.getName() + "were both hit by the enemies attack and took " + (atk - ch1.getDef()) + (atk - ch2.getDef()));
+        System.out.println(ch1.getName() + " and " + ch2.getName() + " were both hit by the enemies attack and took " + (atk - ch1.getDef()) + " " + (atk - ch2.getDef()) + " respective damage!");
     }
 
     public void selectAttacks(int num, Monster ms, Character ch1, Character ch2, Character ch3, Character ch4) {

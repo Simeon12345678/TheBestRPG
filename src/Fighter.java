@@ -5,6 +5,9 @@
 // guard (no override)
 
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Fighter extends Character {
     private String weapon = "Sword";
     private String defaultNames[] = {"Arthur", "Aragorn", "Ornstein", "Saber", "Link"};
@@ -33,7 +36,17 @@ public class Fighter extends Character {
                 attack(ms1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length)]);
                 break;
             case 2:
-                multiAttack(ms2, ms3);
+                List<Monster> temp = Arrays.asList(ms2, ms3, ms4);
+                int option1 = utils.generateRandomNumber(0, 2);
+                int option2 = utils.generateRandomNumber(0, 2);
+                if (option2 == option1) { // so we don't hit the same one twice
+                    if (option2 == 0) {
+                        option2++; // prevent index out of bounds
+                    } else {
+                        option2--;
+                    }
+                }
+                multiAttack(temp.get(option1), temp.get(option2));
                 break;
             case 3:
                 guard(name, npcType);

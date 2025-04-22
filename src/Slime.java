@@ -59,7 +59,7 @@ public class Slime extends Monster {
     public void selectAttacks(int num, Monster ms, Character ch1, Character ch2, Character ch3, Character ch4) {
         switch (num) {
             case 1:
-                attack(ch1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length)]);
+                attack(ch1, possibleAttackNames[utils.generateRandomNumber(0, possibleAttackNames.length - 1)]);
                 break;
             case 2:
                 multiAttack(ch2, ch3, ch4);
